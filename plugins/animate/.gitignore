@@ -1,8 +1,8 @@
-.db
-.DS_Store
-.idea
-.ini
-.log
-.sass-cache
-node_modules/
-test/
+.db
+.DS_Store
+.idea
+.ini
+.log
+.sass-cache
+node_modules/
+test/

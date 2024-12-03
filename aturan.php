@@ -120,6 +120,8 @@ if ($mapel['ulang'] == 1) {
         'online' => $reset,
         'id_soal' => $id_soal . $id_esai,
         'id_opsi' => $id_opsi
+
+
     );
 } else {
     $nilaidata = array(
@@ -134,6 +136,7 @@ if ($mapel['ulang'] == 1) {
         'online' => $reset,
         'id_soal' => $id_soal . $id_esai
 
+
     );
 }
 
@@ -147,8 +150,7 @@ endforeach;
 $ujianarray = json_encode($ujianarray);
 $ujianarray = enkripsi($ujianarray);
 $insertnilai = insert($koneksi, 'nilai', $nilaidata);
-$insertnilaitemp = insert($koneksi, 'nilai_temp', $nilaidata);
-if ($insertnilaitemp) {
+if ($insertnilai) {
     insert($koneksi, 'log', $logdata);
 } ?>
 <script>

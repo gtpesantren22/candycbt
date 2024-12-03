@@ -163,6 +163,7 @@ $tglsekarang = time();
                 </div>
             </nav>
         </header>
+        
         <aside class='main-sidebar'>
             <section class='sidebar'>
                 <hr style="margin:0px">
@@ -204,6 +205,7 @@ $tglsekarang = time();
                 </ul><!-- /.sidebar-menu -->
             </section>
         </aside>
+       
         <div class='content-wrapper' style='background-image: url(dist/backgroun.jpg);background-size: cover;'>
             <section class='content-header' style="height:102px;z-index:0;background:#0979c7">
             </section>
@@ -302,13 +304,10 @@ $tglsekarang = time();
                                                         'id_mapel' => $mapelx['id_mapel'],
                                                         'id_siswa' => $id_siswa
                                                         //'kode_ujian' => $mapelx['kode_ujian']
-                                                    ); 
-                                                   
+                                                    );
                                                     $nilai = fetch($koneksi, 'nilai', $where);
-                                                    $nilai_temp = fetch($koneksi, 'nilai_temp', $where);
                                                     $ceknilai = rowcount($koneksi, 'nilai', $where);
-                                                    $ceknilai_temp = rowcount($koneksi, 'nilai_temp', $where);
-                                                    if ($nilai['ujian_selesai'] == '' and $ceknilai_temp == 0) :
+                                                    if ($ceknilai == '0') :
                                                         if (strtotime($mapelx['tgl_ujian']) <= time() and time() <= strtotime($mapelx['tgl_selesai'])) :
                                                             $status = '<label class="label label-success">Tersedia </label>';
                                                             $btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-primary'><i class='fa fa-edit'></i> MULAI</button>";
@@ -320,10 +319,10 @@ $tglsekarang = time();
                                                             $btntest = "<button' class='btn btn-block btn-sm btn-danger disabled'> Telat Ujian</button>";
                                                         endif;
                                                     else :
-                                                        if ($nilai_temp['ujian_mulai'] <> '' and $nilai_temp['ujian_berlangsung'] <> '' and $nilai_temp['ujian_selesai'] == '') :
+                                                        if ($nilai['ujian_mulai'] <> '' and $nilai['ujian_berlangsung'] <> '' and $nilai['ujian_selesai'] == '') :
                                                             
                                                             if ($mapelx['reset'] == 1) {
-                                                                if($nilai_temp['online']==0){
+                                                                if($nilai['online']==0){
                                                                 $status = '<label class="label label-warning">Berlangsung</label>';
                                                                 $btntest = "<button data-id='$mapelx[id_ujian]' data-ids='$id_siswa' class='btnmulaitest btn btn-block btn-sm btn-success'><i class='fas fa-edit'></i> LANJUTKAN</button>";
                                                                 }else{
@@ -705,7 +704,6 @@ $tglsekarang = time();
                                     <div class="nav-tabs-custom">
                                         <ul class="nav nav-tabs">
                                             <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Hasil Ujian</a></li>
-                                            <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="true">Hasil Tugas</a></li>
                     
                                         </ul>
                                         <div class="tab-content">
@@ -744,39 +742,7 @@ $tglsekarang = time();
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="tab-pane" id="tab_2">
-                                                <div class="alert alert-success" role="alert">
-                                                    <strong>Daftar Tugas yang sudah dikerjakan</strong>
-                                                </div>
-                                                <table id='example1' class='table table-bordered table-striped'>
-                                                    <thead>
-                                                        <tr>
-                                                            <th width='5px'>#</th>
-                                                            <th>Nama Mapel</th>
-                                                            
-                                                            <th class='hidden-xs'>Update Dikerjakan</th>
-                                                            <th>Nilai</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php $tugasx = mysqli_query($koneksi, "SELECT * FROM jawaban_tugas WHERE id_siswa='$id_siswa' "); ?>
-                                                        <?php while ($tugas = mysqli_fetch_array($tugasx)) : ?>
-                                                            <?php
-                                                            $nox++;
-                                                            $mapel = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tugas WHERE id_tugas='$tugas[id_tugas]'"));
-                                                            
-                                                            ?>
-                                                            <tr>
-                                                                <td><?= $nox ?></td>
-                                                                <td><?= $mapel['mapel'] ?></td>
-                                                                <td class='hidden-xs'><?= $tugas['tgl_update'] ?></td>
-                                                                <td ><label class='label label-primary'><?= $tugas['nilai']?></label></td>
-                                                                
-                                                            </tr>
-                                                        <?php endwhile; ?>
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -787,7 +753,7 @@ $tglsekarang = time();
                     <?php
                     $ac = dekripsi($ac);
                     $id = dekripsi($id);
-                    $qcek = mysqli_query($koneksi, "select * from nilai_temp where id_ujian='$ac' and id_siswa='$id'");
+                    $qcek = mysqli_query($koneksi, "select * from nilai where id_ujian='$ac' and id_siswa='$id'");
                     $cek = mysqli_num_rows($qcek);
                     if ($cek <> 0) :
                         $query = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ujian WHERE id_ujian='$ac'"));
@@ -808,8 +774,8 @@ $tglsekarang = time();
                         );
 
                         $mapel = fetch($koneksi, 'ujian', array('id_mapel' => $id_mapel, 'id_ujian' => $ac));
-                        update($koneksi, 'nilai_temp', array('ujian_berlangsung' => $datetime), $where2);
-                        $nilai = fetch($koneksi, 'nilai_temp', $where2);
+                        update($koneksi, 'nilai', array('ujian_berlangsung' => $datetime), $where2);
+                        $nilai = fetch($koneksi, 'nilai', $where2);
                         $habis = strtotime($nilai['ujian_berlangsung']) - strtotime($nilai['ujian_mulai']);
                         $detik = ($mapel['lama_ujian'] * 60) - $habis;
                         $dtk = $detik % 60;

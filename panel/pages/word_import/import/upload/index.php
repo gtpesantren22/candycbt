@@ -1,3 +1,3 @@
-<?php 
-exit('permission denied');
+<?php 
+exit('permission denied');
 ?>

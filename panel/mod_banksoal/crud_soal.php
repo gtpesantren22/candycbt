@@ -21,12 +21,12 @@ if ($pg == 'import_candy') {
             $exec = mysqli_query($koneksi, "DELETE FROM soal WHERE id_mapel='$id_mapel' ");
             for ($i = 2; $i <= $hasildata; $i++) :
                 $no = $data->val($i, 1);
-                $soal = addslashes($data->val($i, 2));
-                $pilA = addslashes($data->val($i, 3));
-                $pilB = addslashes($data->val($i, 4));
-                $pilC = addslashes($data->val($i, 5));
-                $pilD = addslashes($data->val($i, 6));
-                $pilE = addslashes($data->val($i, 7));
+                $soal = preg_replace('/[^\x20-\x7E]/', '', addslashes($data->val($i, 2)));
+                $pilA = preg_replace('/[^\x20-\x7E]/', '', addslashes($data->val($i, 3)));
+                $pilB = preg_replace('/[^\x20-\x7E]/', '', addslashes($data->val($i, 4)));
+                $pilC = preg_replace('/[^\x20-\x7E]/', '', addslashes($data->val($i, 5)));
+                $pilD = preg_replace('/[^\x20-\x7E]/', '', addslashes($data->val($i, 6)));
+                $pilE = preg_replace('/[^\x20-\x7E]/', '', addslashes($data->val($i, 7)));
                 $jawaban = $data->val($i, 8);
                 $jenis = $data->val($i, 9);
                 $file1 = $data->val($i, 10);

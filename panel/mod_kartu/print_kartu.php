@@ -56,7 +56,7 @@ $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id
                         <tr>
                             <td style="text-align:left; vertical-align:top">
 
-                                <img src='../../foto/logo_tut.svg' height='60px'>
+                                <img src='../../dist/img/logoaplikasi.png?date<?= time()?>' height='60px'>
                             </td>
                             <td style="text-align:center">
                                 <!-- <b>
@@ -80,17 +80,21 @@ $kelas = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM kelas WHERE id
                         <tr>
                             <td style="text-align:center; vertical-align:top; width:100px" rowspan="8">
                                 <?php
-                                if ($siswa['foto'] <> '') {
-                                    if (!file_exists("../../foto/fotosiswa/$siswa[foto]")) {
-                                        echo "<img src='$homeurl/dist/img/avatar_default.png' class='img'  style='max-width:60px' alt='+'>";
-                                    } else {
-                                        echo "<img src='$homeurl/foto/fotosiswa/$siswa[foto]' class='img'  style='max-width:60px' >";
+                                if(!empty($siswa['foto'])){
+                                   
+                                    if (!file_exists("../../foto/fotosiswa/".$siswa['foto'])) {
+                                        $fotonya =$homeurl."/dist/img/avatar_default.png";
                                     }
-                                } else {
-                                    echo "<img src='$homeurl/dist/img/foto.svg' class='img'  style='max-width:60px' alt='+'>";
+                                    else{
+                                         $fotonya =$homeurl."/foto/fotosiswa/".$siswa[foto];
+                                    }
                                 }
-
+                                else{
+                                    //$fotonya =$homeurl."/dist/img/avatar_default.png";
+                                    $fotonya =$homeurl."/dist/img/foto.svg";
+                                }
                                 ?>
+                                <img src='<?php echo $fotonya.'?date='.time(); ?> ?>' class='img'  style='max-width:60px' alt='+'>
                             </td>
                         </tr>
                         <tr>

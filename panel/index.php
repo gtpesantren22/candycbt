@@ -82,11 +82,11 @@ endif;
 	<div class='loader'></div>
 	<div class='wrapper'>
 		<header class='main-header'>
-			<a href='?' class='logo' style='background-color:#fff'>
+			<a href='?' class='logo' style='background-color:#000'>
 				<span class='animated bounce logo-mini'>
 					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="30px">
 				</span>
-				<span class='animated bounce logo-lg' style="color: blue;">
+				<span class='animated bounce logo-lg' style="color: white;">
 					<img src="<?= $homeurl . '/' . $setting['logo'] ?>" height="40px"> <?= $setting['sekolah'] ?>
 				</span>
 			</a>
@@ -172,10 +172,10 @@ endif;
 		</header>
 
 		<aside class='main-sidebar' style="background-color: #fff">
-			<div class="user-panel" style="text-align:center;font-size:12px">
+			<!-- <div class="user-panel" style="text-align:center">
 				<span>APLIKASI UJIAN</span><br>
 				<span>BERBASIS KOMPUTER</span>
-			</div>
+			</div> -->
 			<div class="menu-header">
 				<ul>
 					<li>
